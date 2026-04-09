@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+            <link rel="index" href="index.html">
+
+
+    <title>Document</title>
+</head>
+<body>
+
+    <header>
+    <a class="logo">
+        <div style="display:flex ;align-items: center;">
+             <img src="img/Logo.png">
+        <span class="lg">MiniHairBar</span>
+        </div>
+       
+
+    </a>
+    
+    <!-- Hamburger Menu Button -->
+    <button class="menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    
+    <nav class="nav-menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+      <div class="header-buttons">
+        <a href="#buy-hair" class="btn btn-shop">🛍️ Shop Now</a>
+        <a href="#book-slot" class="btn btn-book">📅 Book Now</a>
+    </div>
+
+
+</header>
+<!-- BUY HAIR SECTION -->
+
+
+</section>
+<!-- BOOK A SLOT SECTION -->
+
+    <section class="booking-page" id="book-slot">
+    <div class="booking-header">
+        <span class="section-badge">Book Now</span>
+        <h2>Book Your <span class="pink-highlight">Appointment</span></h2>
+        <p class="section-subtitle">Choose your service, pick a date, and secure your slot</p>
+    </div>
+
+    <div class="booking-container">
+        <!-- Service Selection & Pricing -->
+        <div class="services-section">
+            <h3>Our Services</h3>
+            
+            <!-- Weave Installation (Quick add) -->
+            <!-- <div class="installation-quick">
+                <div class="feature compact">
+                    <div class="feature-icon">🔨</div>
+                    <div class="feature-text">
+                        <h4>Weave Installation</h4>
+                        <p>Professional installation with hair purchase</p>
+                        <div class="installation-prices">
+                            <span>Sew-in: R650</span>
+                            <span>Quick weave: R450</span>
+                            <span>Frontal: R850</span>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+             <!-- Braiding Services -->
+                <div class="service-category">
+                    <h4>Braiding Services</h4>
+                    <div class="service-items">
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Cornrows</span>
+                                <span class="service-desc">Classic straight backs</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R110</span>
+                                <button class="select-service" data-service="Cornrows" data-price="110">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Tribal Braids/ Sweet&Sour</span>
+                                <span class="service-desc">Half straight back with half braids</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R280</span>
+                                <button class="select-service" data-service="Box Braids" data-price="280">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Faux/ Artificial locs</span>
+                                <span class="service-desc">Protective style created by wrapping synthetic or real hair around natural hair</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R250</span>
+                                <button class="select-service" data-service="Goddess Locs" data-price="250">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Knotless Braids</span>
+                                <span class="service-desc">Tension-free, natural look</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R330</span>
+                                <button class="select-service" data-service="Knotless Braids" data-price="330">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Straight Back</span>
+                                <span class="service-desc">A timeless choice that combines elegance and simplicity</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R200</span>
+                                <button class="select-service" data-service="Micro Braids" data-price="200">Select</button>
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Braided Ponytail</span>
+                                <span class="service-desc">With added extensions</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R650</span>
+                                <button class="select-service" data-service="Braided Ponytail" data-price="650">Select</button>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                
+                <!-- Natural Hair Services -->
+                <div class="service-category">
+                    <h4>Natural Hair Services</h4>
+                    <div class="service-items">
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Natural Hair Wash</span>
+                                <span class="service-desc">With scalp massage & deep condition</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R60</span>
+                                <button class="select-service" data-service="Natural Hair Wash" data-price="380">Select</button>
+                            </div>
+                        </div>
+                        
+                   
+                               
+                    </div>
+                </div>
+                
+    
+            
+            <div class="service-categories">
+                <!-- Wig Services -->
+                <div class="service-category">
+                    <h4>Wig Services</h4>
+                    <div class="service-items">
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Wig Wash</span>
+                                <span class="service-desc">Deep cleansing & conditioning</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R100</span>
+                                <button class="select-service" data-service="Wig Wash" data-price="100">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Hair Plucking</span>
+                                <span class="service-desc">Natural hairline creation</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R50</span>
+                                <button class="select-service" data-service="Hair Plucking" data-price="50">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Full Customization</span>
+                                <span class="service-desc">Wig bleaching</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R120</span>
+                                <button class="select-service" data-service="Full Customization" data-price="120">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                           <!-- Kids Services -->
+                <!-- <div class="service-category">
+                    <h4>Kids Services (Under 12)</h4>
+                    <div class="service-items">
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Kids Braiding</span>
+                                <span class="service-desc">Simple braids or cornrows</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R350</span>
+                                <button class="select-service" data-service="Kids Braiding" data-price="350">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Kids Wash & Style</span>
+                                <span class="service-desc">Gentle cleansing with simple styling</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R280</span>
+                                <button class="select-service" data-service="Kids Wash & Style" data-price="280">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        
+        <!-- Booking Form -->
+        <div class="booking-form-section">
+            <h3>Book Your Appointment</h3>
+            
+            <div class="selected-services" id="selectedServices">
+                <h4>Selected Services <span class="item-count">(0)</span></h4>
+                <div class="selected-items" id="selectedItems">
+                    <p class="empty-selection">No services selected yet</p>
+                </div>
+                <div class="total-price" id="totalPrice">
+                    Total: R0
+                </div>
+            </div>
+            
+            <form id="appointmentForm" class="appointment-form">
+                <!-- Personal Information -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="071 234 5678" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="stylist">Preferred Stylist</label>
+                        <select id="stylist" name="stylist">
+                            <option value="any">Any Available</option>
+                          
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Date Picker -->
+                <div class="form-group">
+                    <label for="appointmentDate">Select Date *</label>
+                    <input type="date" id="appointmentDate" name="appointmentDate" required min="">
+                </div>
+                
+                <!-- Time Picker -->
+                <div class="form-group">
+                    <label for="appointmentTime">Select Time *</label>
+                    <select id="appointmentTime" name="appointmentTime" required>
+                        <option value="">Choose a time</option>
+                        <option value="09:00">9:00 AM</option>
+                        <option value="09:30">9:30 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="10:30">10:30 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="11:30">11:30 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="12:30">12:30 PM</option>
+                        <option value="13:00">1:00 PM</option>
+                        <option value="13:30">1:30 PM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="14:30">2:30 PM</option>
+                        <option value="15:00">3:00 PM</option>
+                        <option value="15:30">3:30 PM</option>
+                        <option value="16:00">4:00 PM</option>
+                        <option value="16:30">4:30 PM</option>
+                        <option value="17:00">5:00 PM</option>
+                        <option value="17:30">5:30 PM</option>
+                        <option value="18:00">6:00 PM</option>
+                    </select>
+                </div>
+                
+                <!-- Deposit Notice -->
+                <div class="deposit-notice">
+                    <span class="deposit-icon">💰</span>
+                    <div class="deposit-text">
+                        <strong>50% deposit required</strong> to secure your booking
+                        <br><small>Balance payable on arrival</small>
+                    </div>
+                </div>
+                
+                <!-- Additional Notes -->
+                <div class="form-group">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="Any specific requests or information for your stylist?"></textarea>
+                </div>
+                
+                <!-- Payment Method -->
+                <div class="form-group">
+                    <label>Payment Method for Deposit</label>
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="eft" checked>
+                            <span>EFT</span>
+                        </label>
+                        <!-- <label class="payment-option">
+                            <input type="radio" name="payment" value="cash">
+                            <span>Cash (Pay in-store)</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="card">
+                            <span>Card</span>
+                        </label> -->
+                    </div>
+                </div>
+                
+                <!-- Booking Button -->
+                <button type="submit" class="book-now-btn" id="bookNowBtn">
+                    <span>Confirm Booking</span>
+                    <span class="btn-total" id="btnTotal"></span>
+                </button>
+            </form>
+            
+            <div class="booking-info">
+                <p class="booking-note">✧ 24-hour cancellation policy applies. A confirmation email will be sent to your inbox.</p>
+                <p class="banking-details">Capitec Bank • Account: 1712117716 • Branch: 250 655 • Paysharp: 0733787984</p>
+            </div>
+        </div>
+    </div>
+</section>
+    <script>
+
+          // Set API URL - change this to your server URL when deployed
+        const API_URL = 'http://localhost:3000/api';
+       // Booking Page JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('appointmentDate').setAttribute('min', today);
+    
+    // Selected services array
+    let selectedServices = [];
+    
+    // Service selection
+    const selectButtons = document.querySelectorAll('.select-service');
+    const selectedItemsContainer = document.getElementById('selectedItems');
+    const totalPriceElement = document.getElementById('totalPrice');
+    const itemCountElement = document.querySelector('.item-count');
+    const btnTotal = document.getElementById('btnTotal');
+    const bookNowBtn = document.getElementById('bookNowBtn');
+    
+    // Format price in Rands
+    function formatRands(amount) {
+        return 'R' + amount;
+    }
+    
+    // Update selected services display
+    function updateSelectedServices() {
+        if (selectedServices.length === 0) {
+            selectedItemsContainer.innerHTML = '<p class="empty-selection">No services selected yet</p>';
+            totalPriceElement.textContent = 'Total: R0';
+            itemCountElement.textContent = '(0)';
+            btnTotal.textContent = '';
+            bookNowBtn.disabled = true;
+            return;
+        }
+        
+        let html = '';
+        let total = 0;
+        
+        selectedServices.forEach((service, index) => {
+            total += service.price;
+            html += `
+                <div class="selected-item">
+                    <span class="selected-item-name">${service.name}</span>
+                    <span>
+                        <span class="selected-item-price">R${service.price}</span>
+                        <button class="remove-item" data-index="${index}">✕</button>
+                    </span>
+                </div>
+            `;
+        });
+        
+        selectedItemsContainer.innerHTML = html;
+        totalPriceElement.textContent = `Total: R${total}`;
+        itemCountElement.textContent = `(${selectedServices.length})`;
+        
+        // Show deposit amount (50%)
+        const deposit = Math.ceil(total * 0.5);
+        btnTotal.textContent = `(50% deposit: R${deposit})`;
+        bookNowBtn.disabled = false;
+        
+        // Add remove functionality
+        document.querySelectorAll('.remove-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const index = parseInt(this.dataset.index);
+                selectedServices.splice(index, 1);
+                
+                // Update button states
+                updateSelectedServices();
+                updateServiceButtons();
+            });
+        });
+    }
+    
+    // Update service button states
+    function updateServiceButtons() {
+        selectButtons.forEach(btn => {
+            const serviceName = btn.dataset.service;
+            if (selectedServices.some(s => s.name === serviceName)) {
+                btn.classList.add('selected');
+                btn.textContent = 'Selected';
+            } else {
+                btn.classList.remove('selected');
+                btn.textContent = 'Select';
+            }
+        });
+    }
+    
+    // Add service selection
+    selectButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const serviceName = this.dataset.service;
+            const price = parseInt(this.dataset.price);
+            
+            // Check if already selected
+            const existingIndex = selectedServices.findIndex(s => s.name === serviceName);
+            
+            if (existingIndex === -1) {
+                // Add new service
+                selectedServices.push({
+                    name: serviceName,
+                    price: price
+                });
+            } else {
+                // Remove if already selected
+                selectedServices.splice(existingIndex, 1);
+            }
+            
+            updateSelectedServices();
+            updateServiceButtons();
+        });
+    });
+    
+    // Form submission
+    const appointmentForm = document.getElementById('appointmentForm');
+    
+    appointmentForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (selectedServices.length === 0) {
+            alert('Please select at least one service');
+            return;
+        }
+        
+        // Get payment method
+        const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+        
+        // Calculate totals
+        const total = selectedServices.reduce((sum, s) => sum + s.price, 0);
+        const deposit = Math.ceil(total * 0.5);
+        
+        // Get form data
+        const formData = {
+            fullName: document.getElementById('fullName').value,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value,
+            stylist: document.getElementById('stylist').value,
+            date: document.getElementById('appointmentDate').value,
+            time: document.getElementById('appointmentTime').value,
+            notes: document.getElementById('notes').value,
+            services: selectedServices,
+            total: total,
+            deposit: deposit,
+            paymentMethod: paymentMethod
+        };
+        
+        // Here you would typically send this to your backend
+        console.log('Booking submitted:', formData);
+        
+        // Show success message with deposit info
+        let paymentMessage = '';
+        if (paymentMethod === 'eft') {
+            paymentMessage = 'Please make EFT payment of R' + deposit + ' to Capitec Account on 1712117716';
+        } else if (paymentMethod === 'cash') {
+            paymentMessage = 'Please bring R' + deposit + ' cash deposit to secure your booking';
+        } else {
+            paymentMessage = 'Card payment of R' + deposit + ' will be processed in-store';
+        }
+        
+        alert('Booking confirmed!\n\n' + paymentMessage + '\n\nA confirmation email has been sent to ' + formData.email);
+        
+        // Reset form
+        appointmentForm.reset();
+        selectedServices = [];
+        updateSelectedServices();
+        updateServiceButtons();
+    });
+    
+    // Time slot availability (example - you'd get this from backend)
+    const dateInput = document.getElementById('appointmentDate');
+    const timeSelect = document.getElementById('appointmentTime');
+    
+    dateInput.addEventListener('change', function() {
+        const selectedDate = this.value;
+        
+        // Here you would fetch available time slots from your backend
+        console.log('Checking availability for:', selectedDate);
+        
+        // Example: Disable some times for demo
+        const times = timeSelect.options;
+        for (let i = 1; i < times.length; i++) {
+            // Randomly disable some times for demo
+            times[i].disabled = Math.random() > 0.7;
+        }
+    });
+});
+    </script>
+        <script src="script.js"></script>
+
+</body>
+</html>

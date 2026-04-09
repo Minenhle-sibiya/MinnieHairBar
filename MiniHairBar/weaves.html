@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="style.css">
+    <link rel="services" href="services.html">
+     <link rel="index" href="index.html">
+    <title>Document</title>
+</head>
+<body>
+        <header>
+    <a class="logo">
+        <div style="display:flex ;align-items: center;">
+             <img src="img/Logo.png">
+        <span class="lg">MiniHairBar</span>
+        </div>
+       
+
+    </a>
+    
+    <!-- Hamburger Menu Button -->
+    <button class="menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    
+    <nav class="nav-menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+      <div class="header-buttons">
+        <a href="#buy-hair" class="btn btn-shop">🛍️ Shop Now</a>
+        <a href="#book-slot" class="btn btn-book">📅 Book Now</a>
+    </div>
+
+
+</header>
+<section class="buy-hair-section" id="buy-hair">
+    <div class="section-header">
+        <span class="section-badge">Shop Now</span>
+        <h2>Buy Premium <span class="pink-highlight">Hair</span></h2>
+        <p class="section-subtitle">Quality Hair</p>
+    </div>
+
+      <!-- Weave Shop Section -->
+        
+                <div class="service-category">
+                    <h4>360 straight frontal wig</h4>
+                    <div class="service-items">
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">20"</span>
+                               
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R450</span>
+                                <button class="select-service" data-service="Cornrows" data-price="450">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">22" </span>
+                               
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R950</span>
+                                <button class="select-service" data-service="Box Braids" data-price="950">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">24"</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R1200</span>
+                                <button class="select-service" data-service="Goddess Locs" data-price="1200">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">26"</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R1100</span>
+                                <button class="select-service" data-service="Knotless Braids" data-price="1100">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">28"</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R1500</span>
+                                <button class="select-service" data-service="Micro Braids" data-price="1500">Select</button>
+                            </div>
+                        </div>
+                      
+                    </div>
+                </div>
+                
+            <!-- Shopping Form -->
+        <div class="booking-form-section">
+            <h3>Book Your Appointment</h3>
+            
+            <div class="selected-services" id="selectedServices">
+                <h4>Selected Services <span class="item-count">(0)</span></h4>
+                <div class="selected-items" id="selectedItems">
+                    <p class="empty-selection">No services selected yet</p>
+                </div>
+                <div class="total-price" id="totalPrice">
+                    Total: R0
+                </div>
+            </div>
+            
+            <form id="appointmentForm" class="appointment-form">
+                <!-- Personal Information -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="071 234 5678" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    
+                   
+                
+                <!-- Booking Button -->
+                <button type="submit" class="book-now-btn" id="bookNowBtn">
+                    <span>Confirm Booking</span>
+                    <span class="btn-total" id="btnTotal"></span>
+                </button>
+            </form>
+            
+            <div class="booking-info">
+                <p class="booking-note">✧ 24-hour cancellation policy applies. A confirmation email will be sent to your inbox.</p>
+                <p class="banking-details">FNB Bank • Account: 628 345 7890 • Branch: 250 655</p>
+            </div>
+        </div>
+    </div>
+        
+        
+</section>
+     <script>
+       // Booking Page JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('appointmentDate').setAttribute('min', today);
+    
+    // Selected services array
+    let selectedServices = [];
+    
+    // Service selection
+    const selectButtons = document.querySelectorAll('.select-service');
+    const selectedItemsContainer = document.getElementById('selectedItems');
+    const totalPriceElement = document.getElementById('totalPrice');
+    const itemCountElement = document.querySelector('.item-count');
+    const btnTotal = document.getElementById('btnTotal');
+    const bookNowBtn = document.getElementById('bookNowBtn');
+    
+    // Format price in Rands
+    function formatRands(amount) {
+        return 'R' + amount;
+    }
+    
+    // Update selected services display
+    function updateSelectedServices() {
+        if (selectedServices.length === 0) {
+            selectedItemsContainer.innerHTML = '<p class="empty-selection">No services selected yet</p>';
+            totalPriceElement.textContent = 'Total: R0';
+            itemCountElement.textContent = '(0)';
+            btnTotal.textContent = '';
+            bookNowBtn.disabled = true;
+            return;
+        }
+        
+        let html = '';
+        let total = 0;
+        
+        selectedServices.forEach((service, index) => {
+            total += service.price;
+            html += `
+                <div class="selected-item">
+                    <span class="selected-item-name">${service.name}</span>
+                    <span>
+                        <span class="selected-item-price">R${service.price}</span>
+                        <button class="remove-item" data-index="${index}">✕</button>
+                    </span>
+                </div>
+            `;
+        });
+        
+        selectedItemsContainer.innerHTML = html;
+        totalPriceElement.textContent = `Total: R${total}`;
+        itemCountElement.textContent = `(${selectedServices.length})`;
+        
+        // Show deposit amount (50%)
+        const deposit = Math.ceil(total * 0.5);
+        btnTotal.textContent = `(50% deposit: R${deposit})`;
+        bookNowBtn.disabled = false;
+        
+        // Add remove functionality
+        document.querySelectorAll('.remove-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const index = parseInt(this.dataset.index);
+                selectedServices.splice(index, 1);
+                
+                // Update button states
+                updateSelectedServices();
+                updateServiceButtons();
+            });
+        });
+    }
+    
+    // Update service button states
+    function updateServiceButtons() {
+        selectButtons.forEach(btn => {
+            const serviceName = btn.dataset.service;
+            if (selectedServices.some(s => s.name === serviceName)) {
+                btn.classList.add('selected');
+                btn.textContent = 'Selected';
+            } else {
+                btn.classList.remove('selected');
+                btn.textContent = 'Select';
+            }
+        });
+    }
+    
+    // Add service selection
+    selectButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const serviceName = this.dataset.service;
+            const price = parseInt(this.dataset.price);
+            
+            // Check if already selected
+            const existingIndex = selectedServices.findIndex(s => s.name === serviceName);
+            
+            if (existingIndex === -1) {
+                // Add new service
+                selectedServices.push({
+                    name: serviceName,
+                    price: price
+                });
+            } else {
+                // Remove if already selected
+                selectedServices.splice(existingIndex, 1);
+            }
+            
+            updateSelectedServices();
+            updateServiceButtons();
+        });
+    });
+    
+    // Form submission
+    const appointmentForm = document.getElementById('appointmentForm');
+    
+    appointmentForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (selectedServices.length === 0) {
+            alert('Please select at least one service');
+            return;
+        }
+        
+        // Get payment method
+        const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+        
+        // Calculate totals
+        const total = selectedServices.reduce((sum, s) => sum + s.price, 0);
+        const deposit = Math.ceil(total * 0.5);
+        
+        // Get form data
+        const formData = {
+            fullName: document.getElementById('fullName').value,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value,
+            stylist: document.getElementById('stylist').value,
+            date: document.getElementById('appointmentDate').value,
+            time: document.getElementById('appointmentTime').value,
+            notes: document.getElementById('notes').value,
+            services: selectedServices,
+            total: total,
+            deposit: deposit,
+            paymentMethod: paymentMethod
+        };
+        
+        // Here you would typically send this to your backend
+        console.log('Booking submitted:', formData);
+        
+        // Show success message with deposit info
+        let paymentMessage = '';
+        if (paymentMethod === 'eft') {
+            paymentMessage = 'Please make EFT payment of R' + deposit + ' to FNB Account: 628 345 7890';
+        } else if (paymentMethod === 'cash') {
+            paymentMessage = 'Please bring R' + deposit + ' cash deposit to secure your booking';
+        } else {
+            paymentMessage = 'Card payment of R' + deposit + ' will be processed in-store';
+        }
+        
+        alert('Booking confirmed!\n\n' + paymentMessage + '\n\nA confirmation email has been sent to ' + formData.email);
+        
+        // Reset form
+        appointmentForm.reset();
+        selectedServices = [];
+        updateSelectedServices();
+        updateServiceButtons();
+    });
+    
+    // Time slot availability (example - you'd get this from backend)
+    const dateInput = document.getElementById('appointmentDate');
+    const timeSelect = document.getElementById('appointmentTime');
+    
+    dateInput.addEventListener('change', function() {
+        const selectedDate = this.value;
+        
+        // Here you would fetch available time slots from your backend
+        console.log('Checking availability for:', selectedDate);
+        
+        // Example: Disable some times for demo
+        const times = timeSelect.options;
+        for (let i = 1; i < times.length; i++) {
+            // Randomly disable some times for demo
+            times[i].disabled = Math.random() > 0.7;
+        }
+    });
+});
+    </script>
+</body>
+</html>
