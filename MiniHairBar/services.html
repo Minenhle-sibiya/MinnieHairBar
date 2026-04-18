@@ -1,47 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-            <link rel="index" href="index.html">
-
-
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="index" href="index.html">
+    <title>MiniHairBar - Book Appointment</title>
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <style>
+        /* Additional styles for better UI */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .loading-spinner {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .loading-spinner::after {
+            content: "⏳";
+            font-size: 40px;
+            display: block;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 
 <body>
-    <header>
-    <a class="logo">
-        <div style="display:flex ;align-items: center;">
-             <img src="img/Logo.png">
-        <span class="lg">MiniHairBar</span>
-        </div>
-       
-
-    </a>
-    
-    <!-- Hamburger Menu Button -->
-    <button class="menu-toggle" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    
-    <nav class="nav-menu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-    
-      <div class="header-buttons">
-        <a href="services.html" class="btn btn-shop">🛍️ Book a slot</a>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">Sending confirmation email...</div>
     </div>
 
+    <header>
+        <a class="logo">
+            <div style="display:flex ;align-items: center;">
+                <img src="img/Logo.png">
+                <span class="lg">MiniHairBar</span>
+            </div>
+        </a>
+        
+        <!-- Hamburger Menu Button -->
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-buttons">
+            <a href="services.html" class="btn btn-shop">🛍️ Book a slot</a>
+        </div>
+    </header>
 
-</header>
     <section class="booking-page" id="book-slot">
         <div class="booking-header">
             <span class="section-badge">Book Now</span>
@@ -221,13 +256,16 @@
                     <div class="form-group">
                         <label for="appointmentTime">Select Time *</label>
                         <select id="appointmentTime" name="appointmentTime" required>
-                            <option value="">Available Slots</option>
+                            <option value="">Select a time</option>
                             <option value="09:00">9:00 AM</option>
-                            <option value="12:00">9:00 AM</option>
-
-                            
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="14:00">2:00 PM</option>
                             <option value="15:00">3:00 PM</option>
-                          
+                            <option value="16:00">4:00 PM</option>
+                            <option value="17:00">5:00 PM</option>
                         </select>
                     </div>
                     
@@ -268,10 +306,21 @@
         </div>
     </section>
 
-    <!-- DIRECT INLINE SCRIPT - NO EXTERNAL FILE -->
     <script>
         (function() {
-            console.log('SCRIPT LOADED - Version 3.0');
+            console.log('MiniHairBar Booking System - Email Enabled');
+            
+            // ============ YOUR EMAILJS CREDENTIALS ============
+            // ✅ These are your actual credentials - they look correct!
+            const EMAILJS_PUBLIC_KEY = "HRrxOn4QNK_-GYGkU";
+            const EMAILJS_SERVICE_ID = "service_1wyxfve";
+            const EMAILJS_TEMPLATE_ID = "template_0p1civ1";
+            
+            // Initialize EmailJS (ALWAYS initialize)
+            emailjs.init(EMAILJS_PUBLIC_KEY);
+            console.log('✅ EmailJS initialized with key:', EMAILJS_PUBLIC_KEY.substring(0, 10) + '...');
+            
+            // ============ BOOKING SYSTEM LOGIC ============
             
             // Set minimum date to today
             const today = new Date().toISOString().split('T')[0];
@@ -293,19 +342,15 @@
             const bookNowBtn = document.getElementById('bookNowBtn');
             const appointmentForm = document.getElementById('appointmentForm');
             const timeSelect = document.getElementById('appointmentTime');
+            const loadingOverlay = document.getElementById('loadingOverlay');
             
-            console.log('Time select element found:', !!timeSelect);
-            console.log('Number of service buttons:', selectButtons.length);
+            // Helper: Show/hide loading
+            function showLoading() {
+                if (loadingOverlay) loadingOverlay.style.display = 'flex';
+            }
             
-            // Make sure time dropdown works
-            if (timeSelect) {
-                console.log('Time dropdown has', timeSelect.options.length, 'options');
-                // Remove any disabled attributes
-                for (let i = 0; i < timeSelect.options.length; i++) {
-                    timeSelect.options[i].disabled = false;
-                }
-                timeSelect.disabled = false;
-                console.log('All time options enabled');
+            function hideLoading() {
+                if (loadingOverlay) loadingOverlay.style.display = 'none';
             }
             
             // Update selected services display
@@ -370,6 +415,181 @@
                 });
             }
             
+            // Function to send confirmation email via EmailJS
+            async function sendConfirmationEmail(bookingData) {
+                const templateParams = {
+    to_name: bookingData.fullName,
+    to_email: bookingData.email,     // Keep this one
+    user_email: bookingData.email,   // ADD THIS LINE - EmailJS needs this
+    booking_id: bookingData.bookingId,
+    appointment_date: bookingData.date,
+    appointment_time: bookingData.time,
+    services: bookingData.servicesList,
+    total_amount: bookingData.total.toString(),
+    deposit_amount: bookingData.deposit.toString(),
+    phone: bookingData.phone,
+    notes: bookingData.notes || "None",
+    bank_details: "Capitec Bank Account: 1712117716 Branch: 250655",
+    stylist: bookingData.stylist || "Any Available"
+};
+                
+                console.log('📧 Attempting to send email with params:', templateParams);
+                
+                try {
+                    const response = await emailjs.send(
+                        EMAILJS_SERVICE_ID, 
+                        EMAILJS_TEMPLATE_ID, 
+                        templateParams
+                    );
+                    console.log('✅ Email sent successfully!', response);
+                    return { status: 'success', message: 'Confirmation email sent!' };
+                } catch (error) {
+                    console.error('❌ Email failed:', error);
+                    // Log more details about the error
+                    if (error.text) console.error('Error details:', error.text);
+                    return { status: 'error', message: error.text || 'Failed to send email' };
+                }
+            }
+            
+            // Save booking to localStorage (backup)
+            function saveBookingToLocalStorage(bookingData) {
+                const bookings = JSON.parse(localStorage.getItem('minihairbar_bookings') || '[]');
+                bookings.push(bookingData);
+                localStorage.setItem('minihairbar_bookings', JSON.stringify(bookings));
+                console.log('💾 Booking saved to localStorage');
+            }
+            
+            // Form submission with real email
+            if (appointmentForm) {
+                appointmentForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Validate services
+                    if (selectedServices.length === 0) {
+                        alert('❌ Please select at least one service');
+                        return;
+                    }
+                    
+                    // Get form values
+                    const fullName = document.getElementById('fullName')?.value.trim();
+                    const phone = document.getElementById('phone')?.value.trim();
+                    const email = document.getElementById('email')?.value.trim();
+                    const date = document.getElementById('appointmentDate')?.value;
+                    const time = document.getElementById('appointmentTime')?.value;
+                    const stylist = document.getElementById('stylist')?.value;
+                    const notes = document.getElementById('notes')?.value;
+                    
+                    // Validate required fields
+                    if (!fullName || !phone || !email || !date || !time) {
+                        alert('❌ Please fill in all required fields');
+                        return;
+                    }
+                    
+                    // Validate phone number (10 digits)
+                    const phoneDigits = phone.replace(/\D/g, '');
+                    if (phoneDigits.length !== 10) {
+                        alert('❌ Please enter a valid 10-digit phone number');
+                        return;
+                    }
+                    
+                    // Validate email format
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        alert('❌ Please enter a valid email address');
+                        return;
+                    }
+                    
+                    // Calculate totals
+                    const total = selectedServices.reduce((sum, s) => sum + s.price, 0);
+                    const deposit = Math.ceil(total * 0.5);
+                    const bookingId = 'MBH' + Date.now() + Math.floor(Math.random() * 1000);
+                    
+                    // Format services list for email
+                    const servicesList = selectedServices.map(s => `• ${s.name}: R${s.price}`).join('\n');
+                    
+                    // Prepare booking data
+                    const bookingData = {
+                        fullName: fullName,
+                        phone: phone,
+                        email: email,
+                        date: date,
+                        time: time,
+                        stylist: stylist || "Any Available",
+                        notes: notes,
+                        services: selectedServices,
+                        servicesList: servicesList,
+                        total: total,
+                        deposit: deposit,
+                        bookingId: bookingId,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    // Show loading state
+                    showLoading();
+                    bookNowBtn.disabled = true;
+                    bookNowBtn.textContent = 'Processing...';
+                    
+                    try {
+                        // Send confirmation email
+                        const emailResult = await sendConfirmationEmail(bookingData);
+                        
+                        // Save to localStorage as backup
+                        saveBookingToLocalStorage(bookingData);
+                        
+                        // Hide loading
+                        hideLoading();
+                        
+                        // Show success message with email status
+                        let message = `✅ BOOKING CONFIRMED!\n\n`;
+                        message += `📋 Booking ID: ${bookingId}\n`;
+                        message += `👤 Name: ${fullName}\n`;
+                        message += `📅 Date: ${date}\n`;
+                        message += `⏰ Time: ${time}\n\n`;
+                        message += `✂️ Services:\n${servicesList}\n\n`;
+                        message += `💰 Total: R${total}\n`;
+                        message += `💵 Deposit (50%): R${deposit}\n\n`;
+                        message += `🏦 Payment Details:\n`;
+                        message += `Capitec Bank\n`;
+                        message += `Account: 1712117716\n`;
+                        message += `Branch: 250655\n`;
+                        message += `Reference: ${bookingId}\n\n`;
+                        
+                        if (emailResult.status === 'success') {
+                            message += `📧 ✓ Confirmation email sent to ${email}\n`;
+                            message += `💡 Please check your inbox (and spam folder)`;
+                        } else {
+                            message += `⚠️ Email could not be sent, but your booking is saved.\n`;
+                            message += `📱 Please save your Booking ID: ${bookingId}\n`;
+                            message += `❌ Error: ${emailResult.message}`;
+                        }
+                        
+                        alert(message);
+                        
+                        // Reset form
+                        appointmentForm.reset();
+                        selectedServices = [];
+                        updateSelectedServices();
+                        updateServiceButtons();
+                        if (dateInput) dateInput.value = '';
+                        if (timeSelect) timeSelect.value = '';
+                        
+                    } catch (error) {
+                        hideLoading();
+                        console.error('Booking error:', error);
+                        alert(`❌ Booking failed: ${error.message}\n\nPlease try again or contact us directly.`);
+                    } finally {
+                        bookNowBtn.disabled = false;
+                        bookNowBtn.innerHTML = '<span>Confirm Booking</span><span class="btn-total" id="btnTotal"></span>';
+                        const newBtnTotal = document.getElementById('btnTotal');
+                        if (newBtnTotal && selectedServices.length > 0) {
+                            const total = selectedServices.reduce((sum, s) => sum + s.price, 0);
+                            const deposit = Math.ceil(total * 0.5);
+                            newBtnTotal.textContent = `(50% deposit: R${deposit})`;
+                        }
+                    }
+                });
+            }
+            
             // Service selection
             selectButtons.forEach(btn => {
                 btn.addEventListener('click', function(e) {
@@ -392,51 +612,18 @@
                 });
             });
             
-            // Form submission
-            if (appointmentForm) {
-                appointmentForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    if (selectedServices.length === 0) {
-                        alert('Please select at least one service');
-                        return;
-                    }
-                    
-                    const fullName = document.getElementById('fullName')?.value.trim();
-                    const phone = document.getElementById('phone')?.value.trim();
-                    const email = document.getElementById('email')?.value.trim();
-                    const date = document.getElementById('appointmentDate')?.value;
-                    const time = document.getElementById('appointmentTime')?.value;
-                    
-                    if (!fullName || !phone || !email || !date || !time) {
-                        alert('Please fill in all fields');
-                        return;
-                    }
-                    
-                    const phoneDigits = phone.replace(/\D/g, '');
-                    if (phoneDigits.length !== 10) {
-                        alert('Please enter a valid 10-digit phone number');
-                        return;
-                    }
-                    
-                    const total = selectedServices.reduce((sum, s) => sum + s.price, 0);
-                    const deposit = Math.ceil(total * 0.5);
-                    const bookingId = 'BOK' + Date.now();
-                    
-                    const servicesList = selectedServices.map(s => `  • ${s.name}: R${s.price}`).join('\n');
-                    
-                    alert(`✅ BOOKING CONFIRMED!\n\nBooking ID: ${bookingId}\nName: ${fullName}\nDate: ${date}\nTime: ${time}\n\nServices:\n${servicesList}\n\nTotal: R${total}\nDeposit (50%): R${deposit}\n\nPlease make EFT payment to:\nCapitec Bank\nAccount: 1712117716\nBranch: 250655\nReference: ${bookingId}\n\nA confirmation has been sent to ${email}`);
-                    
-                    appointmentForm.reset();
-                    selectedServices = [];
-                    updateSelectedServices();
-                    updateServiceButtons();
-                    if (dateInput) dateInput.value = '';
-                });
+            // Enable time dropdown
+            if (timeSelect) {
+                timeSelect.disabled = false;
+                console.log('Time dropdown enabled with', timeSelect.options.length, 'options');
             }
             
+            // Initialize
             updateServiceButtons();
-            console.log('Booking system ready - Time dropdown should work!');
+            console.log('✅ MiniHairBar Booking System Ready');
+            console.log('📧 EmailJS Status: CONFIGURED and ready to send emails!');
+            console.log('🔑 Service ID:', EMAILJS_SERVICE_ID);
+            console.log('📝 Template ID:', EMAILJS_TEMPLATE_ID);
         })();
     </script>
 </body>
