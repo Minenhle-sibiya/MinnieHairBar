@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="index" href="index.html">
+    <title>MiniHairBar - Book Appointment</title>
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <style>
+        /* Additional styles for better UI */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .loading-spinner {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .loading-spinner::after {
+            content: "⏳";
+            font-size: 40px;
+            display: block;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Style for disabled/greyed out time slots */
+        select option:disabled {
+            background-color: #f0f0f0;
+            color: #999;
+            font-style: italic;
+        }
+        
+        /* Availability indicator */
+        .availability-note {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #666;
+        }
+        
+        .slot-taken {
+            color: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">Sending confirmation email...</div>
+    </div>
+
+    <header>
+        <a class="logo">
+            <div style="display:flex ;align-items: center;">
+                <img src="img/Logo.png" alt="Logo">
+                <span class="lg">MiniHairBar</span>
+            </div>
+        </a>
+        
+        <!-- Hamburger Menu Button -->
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-buttons">
+            <a href="services.html" class="btn btn-shop">🛍️ Book a slot</a>
+        </div>
+    </header>
+
+    <section class="booking-page" id="book-slot">
+        <div class="booking-header">
+            <span class="section-badge">Book Now</span>
+            <h2>Book Your <span class="pink-highlight">Appointment</span></h2>
+            <p class="section-subtitle">Choose your service, pick a date, and secure your slot</p>
+        </div>
+
+        <div class="booking-container">
+            <!-- Service Selection -->
+            <div class="services-section">
+                <h3>Our Services</h3>
+                
+                <!-- Braiding Services -->
+                <div class="service-category">
+                    <h4>Braiding Services</h4>
+                    <div class="service-items">
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Cornrows</span>
+                                <span class="service-desc">Classic straight backs</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R110</span>
+                                <button class="select-service" data-service="Cornrows" data-price="110">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Tribal Braids/ Sweet&Sour</span>
+                                <span class="service-desc">Half straight back with half braids</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R280</span>
+                                <button class="select-service" data-service="Tribal Braids" data-price="280">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Faux/ Artificial locs</span>
+                                <span class="service-desc">Protective style</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R250</span>
+                                <button class="select-service" data-service="Faux Locs" data-price="250">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Knotless Braids</span>
+                                <span class="service-desc">Tension-free, natural look</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R330</span>
+                                <button class="select-service" data-service="Knotless Braids" data-price="330">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Straight Back</span>
+                                <span class="service-desc">Elegant and simple</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R200</span>
+                                <button class="select-service" data-service="Straight Back" data-price="200">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Natural Hair Services -->
+                <div class="service-category">
+                    <h4>Natural Hair Services</h4>
+                    <div class="service-items">
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Natural Hair Wash</span>
+                                <span class="service-desc">With scalp massage & deep condition</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R60</span>
+                                <button class="select-service" data-service="Natural Hair Wash" data-price="60">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wig Services -->
+                <div class="service-category">
+                    <h4>Wig Services</h4>
+                    <div class="service-items">
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Wig Wash</span>
+                                <span class="service-desc">Deep cleansing & conditioning</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R100</span>
+                                <button class="select-service" data-service="Wig Wash" data-price="100">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Hair Plucking</span>
+                                <span class="service-desc">Natural hairline creation</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R50</span>
+                                <button class="select-service" data-service="Hair Plucking" data-price="50">Select</button>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item">
+                            <div class="service-info">
+                                <span class="service-name">Full Customization</span>
+                                <span class="service-desc">Wig bleaching</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="price">R120</span>
+                                <button class="select-service" data-service="Full Customization" data-price="120">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Booking Form -->
+            <div class="booking-form-section">
+                <h3>Book Your Appointment</h3>
+                
+                <div class="selected-services" id="selectedServices">
+                    <h4>Selected Services <span class="item-count">(0)</span></h4>
+                    <div class="selected-items" id="selectedItems">
+                        <p class="empty-selection">No services selected yet</p>
+                    </div>
+                    <div class="total-price" id="totalPrice">
+                        Total: R0
+                    </div>
+                </div>
+                
+                <form id="appointmentForm" class="appointment-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="071 234 5678" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="stylist">Preferred Stylist</label>
+                            <select id="stylist" name="stylist">
+                                <option value="any">Any Available</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appointmentDate">Select Date *</label>
+                        <input type="date" id="appointmentDate" name="appointmentDate" required>
+                        <div class="availability-note" id="availabilityNote"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appointmentTime">Select Time *</label>
+                        <select id="appointmentTime" name="appointmentTime" required>
+                            <option value="">First select a date</option>
+                        </select>
+                    </div>
+                    
+                    <div class="deposit-notice">
+                        <span class="deposit-icon">💰</span>
+                        <div class="deposit-text">
+                            <strong>50% deposit required</strong> to secure your booking
+                            <br><small>Balance payable on arrival</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Additional Notes</label>
+                        <textarea id="notes" name="notes" rows="3" placeholder="Any specific requests or information for your stylist?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Payment Method for Deposit</label>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="eft" checked>
+                                <span>EFT</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="book-now-btn" id="bookNowBtn">
+                        <span>Confirm Booking</span>
+                        <span class="btn-total" id="btnTotal"></span>
+                    </button>
+                </form>
+                
+                <div class="booking-info">
+                    <p class="booking-note">✧ 24-hour cancellation policy applies. A confirmation email will be sent to your inbox.</p>
+                    <p class="banking-details">Capitec Bank • Account: 1712117716 • Branch: 250 655 • Paysharp: 0733787984</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <script>
+    (function() {
+        console.log('MiniHairBar Booking System - With Shared Calendar & Slot Blocking');
+        
+        // ============ SHARED BOOKINGS STORAGE (Prevents Double Booking) ============
+        const BOOKINGS_STORAGE_KEY = 'minihairbar_all_bookings';
+        
+        // Get all bookings from localStorage (shared across all clients/tabs)
+        function getAllBookings() {
+            const stored = localStorage.getItem(BOOKINGS_STORAGE_KEY);
+            if (!stored) return [];
+            try {
+                return JSON.parse(stored);
+            } catch(e) {
+                return [];
+            }
+        }
+        
+        // Check if a specific date+time slot is already booked
+        function isSlotBooked(date, time) {
+            if (!date || !time) return false;
+            const bookings = getAllBookings();
+            return bookings.some(booking => booking.date === date && booking.time === time);
+        }
+        
+        // Get all booked slots for a specific date
+        function getBookedTimesForDate(date) {
+            if (!date) return [];
+            const bookings = getAllBookings();
+            return bookings.filter(booking => booking.date === date).map(booking => booking.time);
+        }
+        
+        // Save a new booking to shared storage
+        function saveBookingToSharedStorage(bookingData) {
+            const bookings = getAllBookings();
+            bookings.push({
+                bookingId: bookingData.bookingId,
+                date: bookingData.date,
+                time: bookingData.time,
+                fullName: bookingData.fullName,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(bookings));
+        }
+        
+        // Update time dropdown based on selected date (grey out booked slots)
+        function updateTimeDropdown() {
+            const dateInput = document.getElementById('appointmentDate');
+            const timeSelect = document.getElementById('appointmentTime');
+            const availabilityNote = document.getElementById('availabilityNote');
+            const selectedDate = dateInput ? dateInput.value : '';
+            
+            if (!timeSelect) return;
+            
+            // Clear current options
+            timeSelect.innerHTML = '';
+            
+            if (!selectedDate) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'Please select a date first';
+                option.disabled = true;
+                option.selected = true;
+                timeSelect.appendChild(option);
+                timeSelect.disabled = true;
+                if (availabilityNote) availabilityNote.innerHTML = '';
+                return;
+            }
+            
+            timeSelect.disabled = false;
+            
+            // Add placeholder option
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = 'Select a time';
+            placeholder.disabled = true;
+            placeholder.selected = true;
+            timeSelect.appendChild(placeholder);
+            
+            // Define time slots
+            const timeSlots = [
+                { value: "09:00", label: "9:00 AM" },
+                { value: "12:00", label: "12:00 PM" },
+                { value: "16:00", label: "4:00 PM" }
+            ];
+            
+            const bookedTimes = getBookedTimesForDate(selectedDate);
+            let availableCount = 0;
+            
+            // Add time options with proper disabled state
+            timeSlots.forEach(slot => {
+                const option = document.createElement('option');
+                option.value = slot.value;
+                const isBooked = bookedTimes.includes(slot.value);
+                
+                if (isBooked) {
+                    option.textContent = `${slot.label} ❌ (Already Booked)`;
+                    option.disabled = true;
+                    option.style.backgroundColor = '#f5f5f5';
+                    option.style.color = '#999';
+                } else {
+                    option.textContent = `${slot.label} ✅ Available`;
+                    option.disabled = false;
+                    availableCount++;
+                }
+                timeSelect.appendChild(option);
+            });
+            
+            // Update availability note
+            if (availabilityNote) {
+                if (availableCount === 0) {
+                    availabilityNote.innerHTML = '<span style="color:#dc3545;">⚠️ No time slots available on this date. Please select another date.</span>';
+                    availabilityNote.style.color = '#dc3545';
+                } else {
+                    availabilityNote.innerHTML = `<span style="color:#28a745;">✓ ${availableCount} time slot(s) available on this date</span>`;
+                }
+            }
+        }
+        
+        // Listen for storage events to sync across tabs
+        window.addEventListener('storage', function(e) {
+            if (e.key === BOOKINGS_STORAGE_KEY) {
+                console.log('🔄 Bookings updated from another tab - refreshing availability');
+                updateTimeDropdown();
+                // Show notification to user
+                const availabilityNote = document.getElementById('availabilityNote');
+                if (availabilityNote) {
+                    const originalHtml = availabilityNote.innerHTML;
+                    availabilityNote.innerHTML = '<span style="color:#ff9800;">🔄 Schedule updated from another booking</span>';
+                    setTimeout(() => {
+                        if (availabilityNote.innerHTML.includes('updated from another booking')) {
+                            availabilityNote.innerHTML = originalHtml;
+                        }
+                    }, 3000);
+                }
+            }
+        });
+        
+        // ============ EMAILJS CREDENTIALS ============
+        const EMAILJS_PUBLIC_KEY = "HRrxOn4QNK_-GYGkU";
+        const EMAILJS_SERVICE_ID = "service_1wyxfve";
+        const EMAILJS_TEMPLATE_ID = "template_0p1civ1";  // Client template
+        const BRAIDER_TEMPLATE_ID = "template_ya111uo";  // Braider template
+        
+        // Initialize EmailJS
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+        console.log('✅ EmailJS initialized');
+        
+        // ============ BOOKING SYSTEM LOGIC ============
+        
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        const dateInput = document.getElementById('appointmentDate');
+        if (dateInput) {
+            dateInput.setAttribute('min', today);
+            // Add event listener for date change
+            dateInput.addEventListener('change', updateTimeDropdown);
+        }
+        
+        // Selected services array
+        let selectedServices = [];
+        
+        // DOM Elements
+        const selectButtons = document.querySelectorAll('.select-service');
+        const selectedItemsContainer = document.getElementById('selectedItems');
+        const totalPriceElement = document.getElementById('totalPrice');
+        const itemCountElement = document.querySelector('.item-count');
+        const btnTotal = document.getElementById('btnTotal');
+        const bookNowBtn = document.getElementById('bookNowBtn');
+        const appointmentForm = document.getElementById('appointmentForm');
+        const timeSelect = document.getElementById('appointmentTime');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        
+        function showLoading() {
+            if (loadingOverlay) loadingOverlay.style.display = 'flex';
+        }
+        
+        function hideLoading() {
+            if (loadingOverlay) loadingOverlay.style.display = 'none';
+        }
+        
+        function updateSelectedServices() {
+            if (!selectedItemsContainer) return;
+            
+            if (selectedServices.length === 0) {
+                selectedItemsContainer.innerHTML = '<p class="empty-selection">No services selected yet</p>';
+                if (totalPriceElement) totalPriceElement.textContent = 'Total: R0';
+                if (itemCountElement) itemCountElement.textContent = '(0)';
+                if (btnTotal) btnTotal.textContent = '';
+                if (bookNowBtn) bookNowBtn.disabled = true;
+                return;
+            }
+            
+            let html = '';
+            let total = 0;
+            
+            selectedServices.forEach((service, index) => {
+                total += service.price;
+                html += `
+                    <div class="selected-item">
+                        <span class="selected-item-name">${service.name}</span>
+                        <span>
+                            <span class="selected-item-price">R${service.price}</span>
+                            <button class="remove-item" data-index="${index}">✕</button>
+                        </span>
+                    </div>
+                `;
+            });
+            
+            selectedItemsContainer.innerHTML = html;
+            if (totalPriceElement) totalPriceElement.textContent = `Total: R${total}`;
+            if (itemCountElement) itemCountElement.textContent = `(${selectedServices.length})`;
+            
+            const deposit = Math.ceil(total * 0.5);
+            if (btnTotal) btnTotal.textContent = `(50% deposit: R${deposit})`;
+            if (bookNowBtn) bookNowBtn.disabled = false;
+            
+            document.querySelectorAll('.remove-item').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    if (!isNaN(index)) {
+                        selectedServices.splice(index, 1);
+                        updateSelectedServices();
+                        updateServiceButtons();
+                    }
+                });
+            });
+        }
+        
+        function updateServiceButtons() {
+            selectButtons.forEach(btn => {
+                const serviceName = btn.dataset.service;
+                if (selectedServices.some(s => s.name === serviceName)) {
+                    btn.classList.add('selected');
+                    btn.textContent = 'Selected ✓';
+                } else {
+                    btn.classList.remove('selected');
+                    btn.textContent = 'Select';
+                }
+            });
+        }
+        
+        // Function to send BOTH emails (client + braider)
+        async function sendConfirmationEmails(bookingData) {
+            // Email to client
+            const clientParams = {
+                to_name: bookingData.fullName,
+                to_email: bookingData.email,
+                booking_id: bookingData.bookingId,
+                appointment_date: bookingData.date,
+                appointment_time: bookingData.time,
+                services: bookingData.servicesList,
+                total_amount: bookingData.total.toString(),
+                deposit_amount: bookingData.deposit.toString(),
+                phone: bookingData.phone,
+                notes: bookingData.notes || "None",
+                bank_details: "Capitec Bank Account: 1712117716 Branch: 250655",
+                stylist: bookingData.stylist || "Any Available"
+            };
+            
+            // Email to braider (YOU)
+            const braiderParams = {
+                customer_name: bookingData.fullName,
+                customer_phone: bookingData.phone,
+                customer_email: bookingData.email,
+                booking_id: bookingData.bookingId,
+                appointment_date: bookingData.date,
+                appointment_time: bookingData.time,
+                services: bookingData.servicesList,
+                total_amount: bookingData.total.toString(),
+                deposit_amount: bookingData.deposit.toString(),
+                notes: bookingData.notes || "None",
+                stylist: bookingData.stylist || "Any Available",
+                booking_url: window.location.href
+            };
+            
+            console.log('📧 Sending client email to:', bookingData.email);
+            console.log('📧 Sending braider notification to: minenhleethokomele8@gmail.com');
+            
+            let clientEmailSent = false;
+            let braiderEmailSent = false;
+            
+            try {
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, clientParams);
+                clientEmailSent = true;
+                console.log('✅ Client email sent');
+            } catch (error) {
+                console.error('❌ Client email failed:', error);
+            }
+            
+            try {
+                await emailjs.send(EMAILJS_SERVICE_ID, BRAIDER_TEMPLATE_ID, braiderParams);
+                braiderEmailSent = true;
+                console.log('✅ Braider notification sent');
+            } catch (error) {
+                console.error('❌ Braider notification failed:', error);
+            }
+            
+            if (clientEmailSent && braiderEmailSent) {
+                return { status: 'success', message: 'Both emails sent!' };
+            } else if (clientEmailSent) {
+                return { status: 'partial', message: 'Client email sent, braider notification failed' };
+            } else if (braiderEmailSent) {
+                return { status: 'partial', message: 'Braider notified, client email failed' };
+            } else {
+                return { status: 'error', message: 'Failed to send emails' };
+            }
+        }
+        
+        function saveBookingToLocalStorage(bookingData) {
+            const bookings = JSON.parse(localStorage.getItem('minihairbar_bookings') || '[]');
+            bookings.push(bookingData);
+            localStorage.setItem('minihairbar_bookings', JSON.stringify(bookings));
+        }
+        
+        // Form submission
+        if (appointmentForm) {
+            appointmentForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                if (selectedServices.length === 0) {
+                    alert('❌ Please select at least one service');
+                    return;
+                }
+                
+                const fullName = document.getElementById('fullName')?.value.trim();
+                const phone = document.getElementById('phone')?.value.trim();
+                const email = document.getElementById('email')?.value.trim();
+                const date = document.getElementById('appointmentDate')?.value;
+                const time = document.getElementById('appointmentTime')?.value;
+                const stylist = document.getElementById('stylist')?.value;
+                const notes = document.getElementById('notes')?.value;
+                
+                if (!fullName || !phone || !email || !date || !time) {
+                    alert('❌ Please fill in all required fields');
+                    return;
+                }
+                
+                // Check if slot is still available (double-check before booking)
+                if (isSlotBooked(date, time)) {
+                    alert('❌ Sorry, this time slot was just taken by another client. Please select another time.');
+                    updateTimeDropdown(); // Refresh the dropdown
+                    return;
+                }
+                
+                const phoneDigits = phone.replace(/\D/g, '');
+                if (phoneDigits.length !== 10) {
+                    alert('❌ Please enter a valid 10-digit phone number');
+                    return;
+                }
+                
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('❌ Please enter a valid email address');
+                    return;
+                }
+                
+                const total = selectedServices.reduce((sum, s) => sum + s.price, 0);
+                const deposit = Math.ceil(total * 0.5);
+                const bookingId = 'MBH' + Date.now() + Math.floor(Math.random() * 1000);
+                const servicesList = selectedServices.map(s => `• ${s.name}: R${s.price}`).join('\n');
+                
+                const bookingData = {
+                    fullName: fullName,
+                    phone: phone,
+                    email: email,
+                    date: date,
+                    time: time,
+                    stylist: stylist || "Any Available",
+                    notes: notes,
+                    services: selectedServices,
+                    servicesList: servicesList,
+                    total: total,
+                    deposit: deposit,
+                    bookingId: bookingId,
+                    timestamp: new Date().toISOString()
+                };
+                
+                showLoading();
+                bookNowBtn.disabled = true;
+                bookNowBtn.textContent = 'Processing...';
+                
+                try {
+                    // Save to shared storage FIRST to block the slot
+                    saveBookingToSharedStorage(bookingData);
+                    
+                    const emailResult = await sendConfirmationEmails(bookingData);
+                    saveBookingToLocalStorage(bookingData);
+                    hideLoading();
+                    
+                    let message = `✅ BOOKING CONFIRMED!\n\n`;
+                    message += `📋 Booking ID: ${bookingId}\n`;
+                    message += `👤 Name: ${fullName}\n`;
+                    message += `📅 Date: ${date}\n`;
+                    message += `⏰ Time: ${time}\n\n`;
+                    message += `✂️ Services:\n${servicesList}\n\n`;
+                    message += `💰 Total: R${total}\n`;
+                    message += `💵 Deposit (50%): R${deposit}\n\n`;
+                    message += `🏦 Payment Details:\n`;
+                    message += `Capitec Bank\n`;
+                    message += `Account: 1712117716\n`;
+                    message += `Branch: 250655\n`;
+                    message += `Reference: ${bookingId}\n\n`;
+                    
+                    if (emailResult.status === 'success') {
+                        message += `📧 ✓ Confirmation sent to ${email}\n`;
+                        message += `📧 ✓ Braider notified at minenhleethokomele8@gmail.com\n`;
+                        message += `💡 Please check your inbox (and spam folder)`;
+                    } else if (emailResult.status === 'partial') {
+                        message += `⚠️ ${emailResult.message}\n`;
+                        message += `📱 Please save your Booking ID: ${bookingId}`;
+                    } else {
+                        message += `⚠️ Email could not be sent, but your booking is saved.\n`;
+                        message += `📱 Please save your Booking ID: ${bookingId}`;
+                    }
+                    
+                    alert(message);
+                    
+                    // Reset form
+                    appointmentForm.reset();
+                    selectedServices = [];
+                    updateSelectedServices();
+                    updateServiceButtons();
+                    if (dateInput) dateInput.value = '';
+                    if (timeSelect) {
+                        timeSelect.innerHTML = '<option value="">First select a date</option>';
+                        timeSelect.disabled = true;
+                    }
+                    
+                } catch (error) {
+                    hideLoading();
+                    console.error('Booking error:', error);
+                    alert(`❌ Booking failed: ${error.message}\n\nPlease try again or contact us directly.`);
+                } finally {
+                    bookNowBtn.disabled = false;
+                    bookNowBtn.innerHTML = '<span>Confirm Booking</span><span class="btn-total" id="btnTotal"></span>';
+                    // Refresh the time dropdown to show updated availability
+                    updateTimeDropdown();
+                }
+            });
+        }
+        
+        // Service selection
+        selectButtons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const serviceName = this.dataset.service;
+                const price = parseInt(this.dataset.price);
+                
+                const existingIndex = selectedServices.findIndex(s => s.name === serviceName);
+                
+                if (existingIndex === -1) {
+                    selectedServices.push({ name: serviceName, price: price });
+                    alert(`✓ ${serviceName} added to your booking`);
+                } else {
+                    selectedServices.splice(existingIndex, 1);
+                    alert(`✗ ${serviceName} removed from your booking`);
+                }
+                
+                updateSelectedServices();
+                updateServiceButtons();
+            });
+        });
+        
+        // Initialize time dropdown
+        if (timeSelect) {
+            timeSelect.disabled = true;
+        }
+        
+        updateServiceButtons();
+        
+        // Check if there are any existing bookings to display availability
+        console.log('✅ MiniHairBar Booking System Ready - Shared calendar active');
+        console.log('📅 Booked slots will appear greyed out for all clients');
+        
+        // Optional: Add demo data to show how greyed out slots work (remove in production)
+        const existingBookings = getAllBookings();
+        if (existingBookings.length === 0) {
+            console.log('📝 No existing bookings. Slots will be available until booked.');
+        } else {
+            console.log(`📊 Found ${existingBookings.length} existing booking(s) in system`);
+        }
+    })();
+    
+    // Mobile Menu Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.className = 'menu-overlay';
+    document.body.appendChild(overlay);
+    
+    // Toggle menu
+    menuToggle.addEventListener('click', function() {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (navMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Close menu when clicking overlay
+    overlay.addEventListener('click', function() {
+        menuToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    
+    // Close menu when clicking a link
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+});
+</script>
+</body>
+</html>
